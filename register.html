@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link 
+      rel="stylesheet" 
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+      crossorigin="anonymous">
+    <link 
+      rel="stylesheet" 
+      type="text/css" 
+      href="styles/global.css">
+
+    <title>Konectando Cadastro</title>
+  </head>
+  <body>
+    <div 
+      id="app"
+      v-cloak
+      class="container min-100 d-flex flex-column justify-content-center align-items-center">
+      <div class="card shadow rounded-lg my-3 w-100 max-700">
+        <div class="card-body">
+          <div v-if="!defined" key="notDefined">
+            <h3 class="text-dark text-center">Bom ver você aqui!</h3>
+            <h5 class="text-muted text-center font-weight-normal mb-3">Qual cadastro deseja realizar?</h5>
+            <button 
+              type="submit" 
+              class="btn btn-block btn-blue mt-3"
+              @click.prevent="setDonator(false)">
+              Escola
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-block btn-blue mt-3"
+              @click.prevent="setDonator(true)">
+              Doador
+            </button>
+          </div>
+          <form v-else key="defined">
+            <h3 class="text-dark">Cadastrar-se</h3>
+            <h5 class="text-muted font-weight-normal mb-3">Precisamos de algumas informações...</h5>
+            <div class="form-group">
+              <label for="email">Nome</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="name"
+                v-model="name"
+                required>
+            </div>
+            <div class="form-group" v-show="donator">
+              <label for="password">CPF</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="cpf"
+                v-model="cpf"
+                required>
+            </div>
+            <div class="form-group" v-show="!donator">
+              <label for="password">Cod.</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="cod"
+                v-model="cod"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="password">Celular</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="phone"
+                v-model="phone"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="password">Endereço</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="address"
+                v-model="address"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email"
+                v-model="email"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="password">Senha</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password"
+                v-model="password"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="password">Confirmar senha</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="confirmPassword"
+                v-model="confirmPassword"
+                required>
+            </div>
+            <div 
+              class="alert alert-danger" 
+              role="alert"
+              v-show="error !== null">
+              {{ this.error }}
+            </div>
+            <button 
+              type="submit" 
+              class="btn btn-block btn-blue mt-3"
+              @click.prevent="register()">
+              Vamos lá
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-block btn-outline-danger mt-3"
+              @click.prevent="back()">
+              Voltar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script 
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" 
+      crossorigin="anonymous"></script>
+    <script 
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" 
+      crossorigin="anonymous"></script>
+    <script 
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" 
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script type="text/javascript">
+      let app = new Vue({
+        el: '#app',
+        data: {
+          name: null,
+          email: null,
+          phone: null,
+          address: null,
+          password: null,
+          confirmPassword: null,
+          cpf: null,
+          cod: null,
+          donator: true,
+          defined: false,
+          error: null
+        },
+        methods: {
+          register() {
+            if (this.password.lentgh < 8) {
+              this.error = "Senha muito curta."
+              return
+            }
+            if(this.password !== this.confirmPassword) {
+              this.error = "As senhas não coincidem."
+              return
+            }
+            let url = ""
+            let body = {}
+            if(this.donator) {
+              url = "https://konectando.herokuapp.com/donators/register"
+              body = {
+                name: this.name,
+                email: this.email,
+                phone: this.phone,
+                password: this.password,
+                cpf: this.cpf
+              }
+            }
+            else
+            {
+              url = "https://konectando.herokuapp.com/company/register"
+              body = {
+                name: this.name,
+                email: this.email,
+                phone: this.phone,
+                address: this.address,
+                password: this.password,
+                cod: this.cod
+              }
+            }
+            axios.post(url, body)
+              .then((response) => {
+                localStorage.setItem("acessToken", response.data.token)
+                window.location.href = "home.html"
+              })
+              .catch(() => this.error = "Erro ao cadastrar-se, revise seus dados.")
+          },
+          setDonator(choice, defined = true) {
+            this.donator = choice
+            this.defined = defined
+          },
+          back() {
+            this.defined = false
+            this.name = ""
+            this.email = ""
+            this.phone = ""
+            this.address = ""
+            this.password = ""
+            this.confirmPassword = ""
+            this.cpf = ""
+            this.cod = ""
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
