@@ -14,7 +14,7 @@
       type="text/css" 
       href="styles/global.css">
 
-    <title>Konectando Sign In</title>
+    <title>Konectando Login</title>
   </head>
   <body>
     <div 
@@ -24,25 +24,26 @@
       <div class="card shadow rounded-lg w-100 max-700">
         <div class="card-body">
           <div v-if="!defined" key="notDefined">
-            <h3 class="text-dark text-center">Hello</h3>
-            <h5 class="text-muted text-center font-weight-normal mb-3">Which type of account do you want to sign in with?</h5>
+            <h3 class="text-dark text-center">Olá</h3>
+            <h5 class="text-muted text-center font-weight-normal mb-3">Com qual tipo de conta você quer entrar?</h5>
             <button 
               type="submit" 
               class="btn btn-block btn-blue mt-3"
               @click.prevent="setDonator(false)">
-              School
+              Escola
             </button>
             <button 
               type="submit" 
               class="btn btn-block btn-blue mt-3"
               @click.prevent="setDonator(true)">
-              Donor
+              Doador
             </button>
-            <a href="register.html" class="mt-3 btn-link btn-block text-muted text-center w-100">Don't have an account? Register.</a>
+            <a href="register.html" class="mt-3 btn-link btn-block text-muted text-center w-100">
+            Não tem uma conta? Cadastre-se</a>
           </div>
           <form v-else key="defined">
-            <h3 class="text-dark">Sign In</h3>
-            <h5 class="text-muted font-weight-normal mb-3">Use an existing account to sign in</h5>
+            <h3 class="text-dark">Entrar</h3>
+            <h5 class="text-muted font-weight-normal mb-3">Use uma conta existente para entrar</h5>
             <div class="form-group">
               <label for="email">Email</label>
               <input 
@@ -53,7 +54,7 @@
                 required>
             </div>
             <div class="form-group">
-              <label for="password">Password</label>
+              <label for="password">Senha</label>
               <input 
                 type="password" 
                 class="form-control" 
@@ -71,15 +72,15 @@
               type="submit" 
               class="btn btn-block btn-blue mt-3"
               @click.prevent="login()">
-              Let's start
+              Vamos lá
             </button>
             <button 
               type="submit" 
               class="btn btn-block btn-outline-danger mt-3"
               @click.prevent="back()">
-              Back
+              Voltar
             </button>
-            <a href="register.html" class="mt-3 btn-link btn-block text-muted text-center w-100">Don't have an account? Register.</a>
+            <a href="register.html" class="mt-3 btn-link btn-block text-muted text-center w-100">Não tem uma conta? Cadastre-se</a>
           </form>
         </div>
       </div>
@@ -112,17 +113,17 @@
         methods: {
           login() {
             if (!this.email || !this.password)
-              this.error = "Error logging in."
+              this.error = "Preencha os campos."
             let url = ""
             let urlPrefix = ""
             if(this.donator) {
-              url = "https://konectando.herokuapp.com/donators/auth"
-              urlPrefix = "donator/"
+              url = "https://konectando-api.herokuapp.com/donators/auth"
+              urlPrefix = "doador/"
             }
             else
             {
-              url = "https://konectando.herokuapp.com/companies/auth"
-              urlPrefix = "school/"
+              url = "https://konectando-api.herokuapp.com/schools/auth"
+              urlPrefix = "escola/"
             }
             axios.post(url, { 
               email: this.email,
@@ -130,7 +131,7 @@
             }).then((response) => {
               localStorage.setItem("accessToken", response.data.token)
               window.location.href = urlPrefix + "home.html"
-            }).catch((err) => this.error = "Error authenticating, please review your data.")
+            }).catch((err) => this.error = "Erro ao autenticar, confira os dados e tente novamente.")
           },
           setDonator(choice, defined = true) {
             this.donator = choice
