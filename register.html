@@ -43,7 +43,7 @@
             <h3 class="text-dark">Cadastrar-se</h3>
             <h5 class="text-muted font-weight-normal mb-3">Precisamos de algumas informações...</h5>
             <div class="form-group">
-              <label for="email">Nome</label>
+              <label for="name">Nome</label>
               <input 
                 type="text" 
                 class="form-control" 
@@ -52,7 +52,7 @@
                 required>
             </div>
             <div class="form-group" v-show="donator">
-              <label for="password">CPF</label>
+              <label for="cpf">CPF</label>
               <input 
                 type="text" 
                 class="form-control" 
@@ -61,7 +61,7 @@
                 required>
             </div>
             <div class="form-group" v-show="!donator">
-              <label for="password">Cod.</label>
+              <label for="cod">Cod.</label>
               <input 
                 type="text" 
                 class="form-control" 
@@ -70,7 +70,7 @@
                 required>
             </div>
             <div class="form-group">
-              <label for="password">Celular</label>
+              <label for="phone">Celular</label>
               <input 
                 type="text" 
                 class="form-control" 
@@ -78,8 +78,8 @@
                 v-model="phone"
                 required>
             </div>
-            <div class="form-group">
-              <label for="password">Endereço</label>
+            <div class="form-group" v-show="!donator">
+              <label for="address">Endereço</label>
               <input 
                 type="text" 
                 class="form-control" 
@@ -106,7 +106,7 @@
                 required>
             </div>
             <div class="form-group">
-              <label for="password">Confirmar senha</label>
+              <label for="confirmPassword">Confirmar senha</label>
               <input 
                 type="password" 
                 class="form-control" 
@@ -191,7 +191,7 @@
             }
             else
             {
-              url = "https://konectando.herokuapp.com/company/register"
+              url = "https://konectando.herokuapp.com/companies/register"
               body = {
                 name: this.name,
                 email: this.email,
@@ -203,7 +203,7 @@
             }
             axios.post(url, body)
               .then((response) => {
-                localStorage.setItem("acessToken", response.data.token)
+                localStorage.setItem("accessToken", response.data.token)
                 window.location.href = "home.html"
               })
               .catch(() => this.error = "Erro ao cadastrar-se, revise seus dados.")
