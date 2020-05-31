@@ -25,7 +25,7 @@ body {
 	min-height: 100vh
 }
 
-.btn-blue {
+.btn-blue, .bg-blue {
 	background-color: var(--blue);
 }
 
@@ -45,6 +45,15 @@ body {
 	color: #fff !important;
 }
 
+.btn-blue:hover {
+	opacity: 0.9;
+}
+
 .max-700 {
 	max-width: 600px
+}
+
+.elevate:hover {
+	box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+	transform: translateY(-1px);
 }
