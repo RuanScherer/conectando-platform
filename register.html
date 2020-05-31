@@ -179,6 +179,7 @@
             }
             let url = ""
             let body = {}
+            let urlPrefix = ""
             if(this.donator) {
               url = "https://konectando.herokuapp.com/donators/register"
               body = {
@@ -188,6 +189,7 @@
                 password: this.password,
                 cpf: this.cpf
               }
+              urlPrefix = "donator/"
             }
             else
             {
@@ -200,11 +202,12 @@
                 password: this.password,
                 cod: this.cod
               }
+              urlPrefix = "school/"
             }
             axios.post(url, body)
               .then((response) => {
                 localStorage.setItem("accessToken", response.data.token)
-                window.location.href = "home.html"
+                window.location.href = urlPrefix + "home.html"
               })
               .catch(() => this.error = "Erro ao cadastrar-se, revise seus dados.")
           },
