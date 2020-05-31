@@ -1,0 +1,50 @@
+body {
+  background-color: #4048C9 !important;
+  --blue: #505AFC !important;
+  --light: (#F9F9F9);
+}
+
+* {
+	outline: none !important;
+	text-decoration: none !important;
+}
+
+[v-cloak] {
+	display: none !important;
+}
+
+.rounded-lg {
+	border-radius: 14px !important;
+}
+
+.btn {
+	border-radius: 10px !important
+}
+
+.min-100 {
+	min-height: 100vh
+}
+
+.btn-blue {
+	background-color: var(--blue);
+}
+
+.form-control {
+	border-radius: 10px !important;
+}
+
+.form-control:focus, .btn:focus {
+	border: 1.5px solid var(--blue)
+}
+
+.form-control:focus {
+	box-shadow: none !important;
+}
+
+.btn-blue, .btn-blue:focus {
+	color: #fff !important;
+}
+
+.max-700 {
+	max-width: 600px
+}
