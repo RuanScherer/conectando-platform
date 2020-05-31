@@ -23,7 +23,24 @@
       class="container min-100 d-flex flex-column justify-content-center align-items-center">
       <div class="card shadow rounded-lg w-100 max-700">
         <div class="card-body">
-          <form>
+          <div v-if="!defined" key="notDefined">
+            <h3 class="text-dark text-center">Olá</h3>
+            <h5 class="text-muted text-center font-weight-normal mb-3">Deseja entrar com qual tipo de conta?</h5>
+            <button 
+              type="submit" 
+              class="btn btn-block btn-blue mt-3"
+              @click.prevent="setDonator(false)">
+              Escola
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-block btn-blue mt-3"
+              @click.prevent="setDonator(true)">
+              Doador
+            </button>
+            <a href="register.html" class="mt-3 btn-link btn-block text-muted text-center w-100">Não tem uma conta? Cadastre-se.</a>
+          </div>
+          <form v-else key="defined">
             <h3 class="text-dark">Entrar</h3>
             <h5 class="text-muted font-weight-normal mb-3">Use uma conta já existente para entrar</h5>
             <div class="form-group">
@@ -56,6 +73,12 @@
               @click.prevent="login()">
               Vamos lá
             </button>
+            <button 
+              type="submit" 
+              class="btn btn-block btn-outline-danger mt-3"
+              @click.prevent="back()">
+              Voltar
+            </button>
             <a href="register.html" class="mt-3 btn-link btn-block text-muted text-center w-100">Não tem uma conta? Cadastre-se.</a>
           </form>
         </div>
@@ -82,19 +105,41 @@
         data: {
           email: null,
           password: null,
+          donator: true,
+          defined: false,
           error: null
         },
         methods: {
           login() {
             if (!this.email || !this.password)
               this.error = "Falha ao logar."
-            axios.post("https://konectando.herokuapp.com/donators/auth", { 
+            let url = ""
+            let urlPrefix = ""
+            if(this.donator) {
+              url = "https://konectando.herokuapp.com/donators/auth"
+              urlPrefix = "donator/"
+            }
+            else
+            {
+              url = "https://konectando.herokuapp.com/companies/auth"
+              urlPrefix = "school/"
+            }
+            axios.post(url, { 
               email: this.email,
               password: this.password 
             }).then((response) => {
-              localStorage.setItem("acessToken", response.data.token)
-              window.location.href = "home.html"
+              localStorage.setItem("accessToken", response.data.token)
+              window.location.href = urlPrefix + "home.html"
             }).catch((err) => this.error = "Erro ao autenticar-se, revise seus dados.")
+          },
+          setDonator(choice, defined = true) {
+            this.donator = choice
+            this.defined = defined
+          },
+          back() {
+            this.defined = false
+            this.email = ""
+            this.password = ""
           }
         }
       })
