@@ -14,7 +14,7 @@
       type="text/css" 
       href="../styles/global.css">
 
-    <title>Konectando Home</title>
+    <title>Konectando Doação</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-blue shadow-sm">
@@ -43,34 +43,36 @@
         </div>
       </div>
     </nav>
-    <div 
-      id="app"
-      v-cloak
-      class="container d-flex flex-column my-4 p-4 bg-light rounded-lg text-dark">
-      <h3 class="col-12 px-2 mb-1">Vamos ajudar alguém hoje?</h3>
-      <h5 class="col-12 px-2 text-muted">Escolha uma escola e faça sua parte!</h5>
+    <div id="app" class="container d-flex flex-column my-4 p-4 bg-light rounded-lg text-dark">
       <div class="d-flex flex-wrap mt-2">
-        <h4 v-show="error !== null" class="text-muted">{{ error }}</h4>
-        <div 
-          class="w-100 col-lg-4 p-2"
-          v-for="school in schools"
-          :key="school._id">
-          <div class="card bg-white rounded-lg elevate h-100">
-            <div class="card-body d-flex flex-column justify-content-center">
-              <h4>{{ school.name }}</h4>
+        <div class="w-100 p-2">
+          <div class="card bg-white rounded-lg">
+            <div class="card-body">
+              <h4>Ruan Vitor Scherer</h4>
               <div class="mt-2">
-                <span class="font-weight-bold">Onde?</span>
-                <h5 class="text-muted font-weight-normal mb-1">{{ school.address }}</h5>
+                <span class="font-weight-bold">Agendamento</span>
+                <h5 class="text-muted font-weight-normal mb-1">01/06/2020 15:45</h5>
               </div>
               <div class="mt-2">
-                <span class="font-weight-bold">Entre em contato</span>
-                <h5 class="text-muted font-weight-normal mb-1">{{ school.phone }}</h5>
+                <span class="font-weight-bold">Doação</span>
+                <h5 class="text-muted font-weight-normal mb-1">2 aparelhos</h5>
               </div>
-              <a href="donate.html" class="btn btn-block btn-blue mt-3">
-                Quero ajudar
-              </a>
+              <div class="mt-2">
+                <span class="font-weight-bold">Descrição</span>
+                <h5 class="text-muted font-weight-normal mb-1">Notebook ASUS e Smartphone Samsung</h5>
+              </div>
+              <div class="mt-2">
+                <span class="font-weight-bold">Contato</span>
+                <h5 class="text-muted font-weight-normal mb-1">(47) 99925-4336</h5>
+              </div>
             </div>
           </div>
+          <a 
+            href="home.html"
+            type="submit" 
+            class="btn btn-block btn-outline-danger mt-3">
+            Voltar
+          </a>
         </div>
       </div>
     </div>
@@ -91,23 +93,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
     <script type="text/javascript">
       let app = new Vue({
-        el: '#app',
-        data: {
-          schools: [],
-          error: null
-        },
-        mounted() {
-          if (!localStorage.getItem("accessToken")) {
-            window.location.href = "login.html"
-            return
-          }
-          axios.get("https://konectando.herokuapp.com/companies", {
-            headers: {
-              'authorization': localStorage.getItem("accessToken")
-            }
-          }).then((response) => this.schools = response.data.companies)
-            .catch((err) => this.error = "Ops! Parece que houve um erro ao buscar as informações no servidor, tente novamente.")
-        }
+        el: '#app'
       })
     </script>
   </body>

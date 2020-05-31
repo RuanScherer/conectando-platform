@@ -33,7 +33,7 @@ body {
 	border-radius: 10px !important;
 }
 
-.form-control:focus, .btn:focus {
+.form-control:focus {
 	border: 1.5px solid var(--blue)
 }
 
