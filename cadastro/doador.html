@@ -21,75 +21,73 @@
       id="app"
       v-cloak
       class="container min-100 d-flex flex-column justify-content-center align-items-center">
-      <div class="card shadow rounded-lg my-3 w-100 max-700">
+      <img src="../assets/logo.svg" class="logo-lg mb-3 mt-4">
+      <div class="rounded-lg my-3 w-100 max-700">
         <div class="card-body">
           <form>
-            <h3 class="text-dark">Cadastrar-se</h3>
-            <h5 class="text-muted font-weight-normal mb-3">Crie sua conta de doador</h5>
             <div class="form-group">
-              <label for="name">Nome completo</label>
+              <label for="name">Nome</label>
               <input 
                 type="text" 
-                class="form-control" 
+                class="form-control form-control-lg" 
                 id="name"
                 v-model="name"
+                placeholder="Nome completo" 
                 required>
             </div>
             <div class="form-group">
               <label for="phone">Celular</label>
               <input 
                 type="text" 
-                class="form-control" 
+                class="form-control form-control-lg" 
                 id="phone"
                 v-model="phone"
+                placeholder="Celular"
                 required>
             </div>
             <div class="form-group">
               <label for="email">Email</label>
               <input 
                 type="email" 
-                class="form-control" 
+                class="form-control form-control-lg" 
                 id="email"
                 v-model="email"
+                placeholder="Email"
                 required>
             </div>
             <div class="form-group">
               <label for="password">Senha</label>
               <input 
                 type="password" 
-                class="form-control" 
+                class="form-control form-control-lg" 
                 id="password"
                 v-model="password"
+                placeholder="Senha"
                 required>
             </div>
             <div class="form-group">
               <label for="confirmPassword">Confirmar senha</label>
               <input 
                 type="password" 
-                class="form-control" 
+                class="form-control form-control-lg" 
                 id="confirmPassword"
                 v-model="confirmPassword"
+                placeholder="Confirmar senha"
                 required>
             </div>
             <div 
-              class="alert alert-danger" 
+              class="alert rounded-lg bg-danger text-light" 
               role="alert"
               v-show="error !== null">
               {{ this.error }}
             </div>
             <button 
               type="submit" 
-              class="btn btn-block btn-blue mt-3"
+              class="btn btn-lg btn-block btn-purple mt-4 mb-3"
               @click.prevent="register()">
               Vamos começar
             </button>
-            <button 
-              type="submit" 
-              class="btn btn-block btn-outline-danger mt-3"
-              @click.prevent="back()">
-              Voltar
-            </button>
-            <a href="cadastro/escola.html" class="mt-3 btn-link btn-block text-muted text-center w-100">
+            <a href="escola.html" class="btn-link btn-block text-light text-center w-100">
             Ou cadastre-se como escola</a>
           </form>
         </div>
