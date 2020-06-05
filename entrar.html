@@ -21,66 +21,81 @@
       id="app"
       v-cloak
       class="container min-100 d-flex flex-column justify-content-center align-items-center">
-      <div class="card shadow rounded-lg w-100 max-700">
+      <img src="assets/logo.svg" class="logo-lg mb-3">
+      <div class="rounded-lg bg-transparent w-100 max-700">
         <div class="card-body">
-          <div v-if="!defined" key="notDefined">
-            <h3 class="text-dark text-center">Olá</h3>
-            <h5 class="text-muted text-center font-weight-normal mb-3">Com qual tipo de conta você quer entrar?</h5>
-            <button 
+          <div 
+            v-if="!defined" 
+            key="notDefined" 
+            class="p-3 radius d-flex flex-column align-items-center text-center">
+            <h2 class="text-green">Olá</h2>
+            <h5 class="text-green font-weight-normal mb-3">Com qual tipo de conta deseja entrar?</h5>
+            <button
               type="submit" 
-              class="btn btn-block btn-blue mt-3"
+              class="btn btn-lg btn-block btn-purple mt-3 shadow"
               @click.prevent="setDonator(false)">
               Escola
             </button>
             <button 
               type="submit" 
-              class="btn btn-block btn-blue mt-3"
+              class="btn btn-lg btn-block btn-purple mt-3 shadow"
               @click.prevent="setDonator(true)">
               Doador
             </button>
-            <a href="cadastro/doador.html" class="mt-3 btn-link btn-block text-muted text-center w-100">
+            <a href="cadastro/doador.html" class="mt-3 btn-link text-light text-center w-100">
             Não tem uma conta? Cadastre-se</a>
           </div>
           <form v-else key="defined">
-            <h3 class="text-dark">Entrar</h3>
-            <h5 class="text-muted font-weight-normal mb-3">Use uma conta existente para entrar</h5>
             <div class="form-group">
               <label for="email">Email</label>
               <input 
                 type="email" 
-                class="form-control" 
+                class="form-control form-control-lg" 
                 id="email"
                 v-model="email"
+                placeholder="Email" 
                 required>
             </div>
             <div class="form-group">
               <label for="password">Senha</label>
               <input 
                 type="password" 
-                class="form-control" 
+                class="form-control form-control-lg" 
                 id="password"
                 v-model="password"
+                placeholder="Senha" 
                 required>
             </div>
             <div 
-              class="alert alert-danger" 
+              class="alert rounded-lg bg-danger text-light" 
               role="alert"
               v-show="error !== null">
               {{ this.error }}
             </div>
             <button 
               type="submit" 
-              class="btn btn-block btn-blue mt-3"
+              class="btn btn-lg btn-block btn-purple mt-4"
               @click.prevent="login()">
               Vamos lá
             </button>
             <button 
               type="submit" 
-              class="btn btn-block btn-outline-danger mt-3"
+              class="btn btn-lg btn-block btn-outline-danger mt-3"
               @click.prevent="back()">
               Voltar
             </button>
-            <a href="cadastro/doador.html" class="mt-3 btn-link btn-block text-muted text-center w-100">Não tem uma conta? Cadastre-se</a>
+            <a
+              v-show="donator"
+              href="cadastro/doador.html" 
+              class="mt-3 btn-link btn-block text-light text-center w-100">
+              Não tem uma conta? Cadastre-se
+            </a>
+            <a
+              v-show="!donator"
+              href="cadastro/escola.html" 
+              class="mt-3 btn-link btn-block text-muted text-center w-100">
+              Não tem uma conta? Cadastre-se
+            </a>
           </form>
         </div>
       </div>
