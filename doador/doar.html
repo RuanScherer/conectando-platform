@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" type="image/svg" href="../assets/logo.svg">
+    <link 
+      rel="stylesheet" 
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+      crossorigin="anonymous">
+    <link 
+      rel="stylesheet" 
+      type="text/css" 
+      href="../styles/global.css">
+
+    <title>Konectando Doar</title>
+  </head>
+  <body>
+    <div 
+      class="modal fade" 
+      id="statusModal" 
+      tabindex="-1" 
+      role="dialog" 
+      aria-labelledby="statusModalLabel" 
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Done</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Take your donation on the chosen date and time, there will be someone responsible to collect them.
+          </div>
+          <div class="modal-footer">
+            <a href="home.html" class="btn btn-blue">Cool!</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark p-3">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="../assets/logo.svg" width="40" height="40" alt="Logo">
+        </a>
+        <button 
+          class="navbar-toggler text-light"
+          type="button" 
+          data-toggle="collapse" 
+          data-target="#navbar" 
+          aria-controls="navbar" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation">
+          <svg class="bi bi-list" width="2em" height="2em" viewBox="0 0 16 16" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link text-light" href="home.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="account.html">Minha conta</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div 
+      id="app" 
+      v-cloak
+      class="container d-flex flex-column my-4">
+      <form class="w-100">
+        <h3 class="text-green mb-3">Doe para E.B.M Oscar Unbehaun</h3>
+        <div class="form-group">
+          <label for="count">Quantos aparelhos deseja doar?</label>
+          <input 
+            type="number" 
+            class="form-control form-control-lg" 
+            id="count"
+            placeholder="Quantidade">
+        </div>
+        <div class="form-group">
+          <label for="description">Descreva os aparelhos brevemente</label>
+          <textarea 
+            type="text" 
+            class="form-control form-control-lg" 
+            id="description"
+            placeholder="Descrição" 
+            rows="3">
+          </textarea>
+        </div>
+        <div 
+          class="alert rounded-lg bg-danger text-light" 
+          role="alert"
+          v-show="error !== null">
+          {{ this.error }}
+        </div>
+        <div class="alert rounded-lg bg-blue-transparent text-light d-flex align-items-center" role="alert">
+          <svg 
+            class="bi bi-info-circle mr-3" 
+            width="2em" 
+            height="2em" 
+            viewBox="0 0 16 16" 
+            fill="#fff" 
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+            <circle cx="8" cy="4.5" r="1"/>
+          </svg>
+          Horário de funcionamento da instituição: 8h às 11:30h - 13h às 18h 
+        </div>
+        <a href="concluido.html" class="btn btn-lg btn-block btn-purple mt-4">
+          Enviar
+        </a>
+        <a 
+          href="home.html"
+          type="submit" 
+          class="btn btn-lg btn-block btn-outline-danger mt-3">
+          Voltar
+        </a>
+      </form>
+    </div>
+
+    <script 
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" 
+      crossorigin="anonymous"></script>
+    <script 
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" 
+      crossorigin="anonymous"></script>
+    <script 
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" 
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script type="text/javascript">
+      let app = new Vue({
+        el: '#app',
+        data: {
+          error: null
+        },
+        mounted() {
+          if (!localStorage.getItem("accessToken") ||
+              !localStorage.getItem("accountType") ||
+              localStorage.getItem("accountType") != "donator") {
+            window.location.href = "../entrar.html"
+            return
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
