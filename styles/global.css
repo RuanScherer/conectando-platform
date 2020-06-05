@@ -31,6 +31,10 @@ body {
 	color: var(--green) !important;
 }
 
+.text-purple {
+	color: var(--purple) !important;
+}
+
 [v-cloak] {
 	display: none !important;
 }
@@ -53,6 +57,12 @@ body {
 
 label {
 	color: var(--green);
+}
+
+.navbar-toggler {
+	border: none !important;
+	margin: 0 !important;
+	padding: 0 !important
 }
 
 .form-control {
