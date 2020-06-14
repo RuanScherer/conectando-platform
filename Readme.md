@@ -1,7 +1,7 @@
 # Konectando
 
 ## Visão Geral
-<p>Corona Status é uma plataforma web que conecta pessoas que precisam de aparelhos eletrônicos para a educação à distância com pessoas que possuem eletrônicos não utilizados e podem doá-los. O objetivo é incluir crianças e jovens que não tem condições de participar da educação à distância por falta de aparelhos eletrônicos adequados.</p>
+<p>Konectando é uma plataforma web que conecta pessoas que precisam de aparelhos eletrônicos para a educação à distância com pessoas que possuem eletrônicos não utilizados e podem doá-los. O objetivo é incluir crianças e jovens que não tem condições de participar da educação à distância por falta de aparelhos eletrônicos adequados.</p>
 
 ## Tecnologias utilizadas
 - HTML / CSS / JavaScript
@@ -23,6 +23,6 @@
 - Você pode acessar a plataforma através do seu navegador acessando o diretório onde extraiu o projeto.
 
 ### Aviso importante
-<p>A API utilizada para todo o processamento dos dados está hospedada em um serivço gratuito do [Heroku](https://www.heroku.com/) e por isso pode estar indisponível após determinado tempo sem ser acessada.</p>
+A API utilizada para todo o processamento dos dados está hospedada em um serivço gratuito do [Heroku](https://www.heroku.com/) e por isso pode estar indisponível após determinado tempo sem ser acessada.
 
 <p>Estou também no <a href="https://www.linkedin.com/in/ruan-scherer/">Linkedin</a>, conecte-se comigo! :rocket:</p>
