@@ -125,20 +125,20 @@
           donator: true,
           defined: false,
           error: null
-        },
+				},
         methods: {
           login() {
             if (!this.email || !this.password)
               this.error = "Preencha os campos."
-            let url = ""
+            let url = "http://localhost:3333/"
             let urlPrefix = ""
             if(this.donator) {
-              url = "https://konectando-api.herokuapp.com/donators/auth"
+              url += "donators/auth"
               urlPrefix = "doador/"
             }
             else
             {
-              url = "https://konectando-api.herokuapp.com/schools/auth"
+              url += "schools/auth"
               urlPrefix = "escola/"
             }
             axios.post(url, { 
@@ -148,7 +148,7 @@
               localStorage.setItem("accessToken", response.data.token)
               localStorage.setItem("accountType", "donator")
               window.location.href = urlPrefix + "home.html"
-            }).catch((err) => this.error = "Erro ao autenticar, confira os dados e tente novamente.")
+            }).catch(() => this.error = "Erro ao autenticar, confira os dados e tente novamente.")
           },
           setDonator(choice, defined = true) {
             this.donator = choice
@@ -159,7 +159,10 @@
             this.email = ""
             this.password = ""
           }
-        }
+				},
+				created() {
+					if (localStorage.getItem("accessToken")) window.history.go(-1)
+				}
       })
     </script>
   </body>

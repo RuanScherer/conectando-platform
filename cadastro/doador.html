@@ -130,7 +130,7 @@
               this.error = "As senhas não coincidem."
               return
             }
-            axios.post("https://konectando-api.herokuapp.com/donators/register", {
+            axios.post("http://localhost:3333/donators/register", {
                 name: this.name,
                 email: this.email,
                 phone: this.phone,
@@ -141,7 +141,10 @@
                 window.location.href = "../doador/home.html"
               }).catch(() => this.error = "Erro ao cadastrar-se, confira seus dados e tente novamente.")
           }
-        }
+				},
+				created() {
+					if (localStorage.getItem("accessToken")) window.history.go(-1)
+				}
       })
     </script>
   </body>

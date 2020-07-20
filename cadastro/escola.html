@@ -43,7 +43,8 @@
                 class="form-control form-control-lg" 
                 id="phone"
                 v-model="phone"
-                placeholder="Telefone"
+								placeholder="Telefone"
+								maxlength="15"
                 required>
             </div>
             <div class="form-group">
@@ -62,7 +63,6 @@
                 type="text" 
                 class="form-control form-control-lg" 
                 id="hour"
-                v-model="hour"
                 placeholder="Horário de funcionamento"
                 required>
             </div>
@@ -151,7 +151,7 @@
               this.error = "As senhas não coincidem."
               return
             }
-            axios.post("https://konectando-api.herokuapp.com/schools/register", {
+            axios.post("http://localhost:3333/schools/register", {
                 name: this.name,
                 email: this.email,
                 phone: this.phone,
@@ -163,7 +163,10 @@
                 window.location.href = "../escola/home.html"
               }).catch(() => this.error = "Erro ao cadastrar-se, confira seus dados e tente novamente.")
           }
-        }
+				},
+				created() {
+					if (localStorage.getItem("accessToken")) window.history.go(-1)
+				}
       })
     </script>
   </body>
