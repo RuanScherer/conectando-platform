@@ -62,7 +62,8 @@
               <input 
                 type="text" 
                 class="form-control form-control-lg" 
-                id="hour"
+								id="hour"
+								v-model="hour"
                 placeholder="Horário de funcionamento"
                 required>
             </div>
@@ -136,7 +137,8 @@
           name: null,
           email: null,
           phone: null,
-          address: null,
+					address: null,
+					hour: null,
           password: null,
           confirmPassword: null,
           error: null
@@ -155,7 +157,8 @@
                 name: this.name,
                 email: this.email,
                 phone: this.phone,
-                address: this.address,
+								address: this.address,
+								hour: this.hour,
                 password: this.password
               }).then((response) => {
                 localStorage.setItem("accessToken", response.data.token)
