@@ -131,22 +131,25 @@
             if (!this.email || !this.password)
               this.error = "Preencha os campos."
             let url = "http://localhost:3333/"
-            let urlPrefix = ""
+						let urlPrefix = ""
+						let accountType = ""
             if(this.donator) {
               url += "donators/auth"
-              urlPrefix = "doador/"
+							urlPrefix = "doador/"
+							accountType = "donator"
             }
             else
             {
               url += "schools/auth"
-              urlPrefix = "escola/"
+							urlPrefix = "escola/"
+							accountType = "school"
             }
             axios.post(url, { 
               email: this.email,
               password: this.password 
             }).then((response) => {
               localStorage.setItem("accessToken", response.data.token)
-              localStorage.setItem("accountType", "donator")
+              localStorage.setItem("accountType", accountType)
               window.location.href = urlPrefix + "home.html"
             }).catch(() => this.error = "Erro ao autenticar, confira os dados e tente novamente.")
           },

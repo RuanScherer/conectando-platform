@@ -91,7 +91,21 @@
 		<script src="../scripts/utilities.js"></script>
     <script type="text/javascript">
       let app = new Vue({
-				el: '#app'
+				el: '#app',
+				created() {
+					authValidation("school")
+					const { id } = getTokenData()
+					axios.get(`http://localhost:3333/schools/${id}`, {
+            headers: {
+              'authorization': localStorage.getItem("accessToken")
+            }
+          }).then(response => {
+						if (!response.data.school.addresses.length) {
+							console.error("deu bosta")
+							return window.location.replace("cadastrar-endereco.html")
+						}
+					}).catch()
+				}
       })
     </script>
   </body>

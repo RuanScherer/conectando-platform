@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" type="image/svg" href="../assets/logo.svg">
+    <link 
+      rel="stylesheet" 
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+      crossorigin="anonymous">
+    <link 
+      rel="stylesheet" 
+      type="text/css" 
+      href="../styles/global.css">
+
+    <title>Konectando Cadastro de Escola</title>
+  </head>
+  <body>
+    <div 
+      id="app"
+      v-cloak
+      class="container min-100 d-flex flex-column justify-content-center align-items-center">
+      <img src="../assets/logo.svg" class="logo-lg mb-3 mt-4">
+      <div class="rounded-lg my-3 w-100 max-700">
+        <div class="card-body">
+					<h2 class="mb-1 text-green w-100">Endereço</h2>
+      		<h5 class="text-green w-100">Precisamos saber seu endereço para continuar.</h5>
+          <form class="mt-3">
+            <div class="form-group">
+              <label for="city">Cidade</label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                id="city"
+                v-model="city"
+                placeholder="Cidade" 
+                required>
+            </div>
+            <div class="form-group">
+              <label for="district">Bairro</label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                id="district"
+                v-model="district"
+								placeholder="Bairro"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="street">Rua</label>
+              <input 
+                type="text" 
+                class="form-control form-control-lg" 
+								id="street"
+								v-model="street"
+                placeholder="Rua e número"
+                required>
+            </div>
+            <div 
+              class="alert bg-danger rounded-lg text-light" 
+              role="alert"
+              v-show="error !== null">
+              {{ this.error }}
+            </div>
+            <button 
+              type="submit" 
+              class="btn btn-lg btn-block btn-purple mt-4 mb-3"
+              @click.prevent="save()">
+              Cadastrar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script 
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" 
+      crossorigin="anonymous"></script>
+    <script 
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" 
+      crossorigin="anonymous"></script>
+    <script 
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" 
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+		<script src="../scripts/utilities.js"></script>
+    <script type="text/javascript">
+      let app = new Vue({
+        el: '#app',
+        data: {
+          city: null,
+          district: null,
+          street: null,
+          error: null
+        },
+        methods: {
+          save() {
+            if (!this.city || !this.district || !this.street) {
+              this.error = "Todos os campos são obrigatórios."
+              return
+            }
+            axios.post("http://localhost:3333/schools/addresses", {
+                city: this.city,
+                district: this.district,
+                street: this.street
+              }, {
+								headers: {
+									'authorization': localStorage.getItem("accessToken")
+								}
+							}).then(() => window.location.href = "home.html")
+								.catch(() => this.error = "Erro ao cadastrar endereço, confira os dados e tente novamente.")
+          }
+				},
+				created() {
+					authValidation("school")
+					const { id } = getTokenData()
+					axios.get(`http://localhost:3333/schools/${id}`, {
+            headers: {
+              'authorization': localStorage.getItem("accessToken")
+            }
+          }).then(response => {
+						if (response.data.school.addresses.length) return window.location.replace("home.html")
+					}).catch()
+				}
+      })
+    </script>
+  </body>
+</html>
