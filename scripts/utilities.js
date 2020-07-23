@@ -17,6 +17,7 @@ function getUrlParams() {
 
 function getUrlParam(name) {
 	const params = getUrlParams()
+	console.log(params)
 	return params.filter(param => param.key === name)[0].value
 }
 
@@ -26,10 +27,8 @@ function getTokenData() {
 }
 
 function authValidation(accountType) {
-	if (!localStorage.getItem("accessToken") || !localStorage.getItem("accountType")) {
-		if (localStorage.getItem("accountType") != accountType) {
-			window.location.href = "../entrar.html"
-			return
-		}
+	if (!localStorage.getItem("accessToken") || !localStorage.getItem("accountType") || localStorage.getItem("accountType") !== accountType) {
+		window.location.href = "../entrar.html"
+		return
 	}
 }
