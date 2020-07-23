@@ -57,8 +57,14 @@
     <div 
       id="app"
       v-cloak
-      class="container d-flex flex-column my-4">
-      <h3 class="w-100 mb-1 text-green">Detalhes da doação</h3>
+			class="container d-flex flex-column my-4">
+			<div class="d-flex flex-wrap align-items-center justify-content-between mb-1">
+				<h3 class="text-green">Detalhes da doação</h3>
+				<div class="d-flex align-items-center">
+					<button class="btn btn-link p-0 my-1 mx-2 text-light text-600">Editar</button>
+					<button class="btn btn-link p-0 my-1 mx-2 text-danger text-600" @click="destroy()">Excluir</button>
+				</div>
+			</div>
       <div class="d-flex flex-wrap mt-2">
         <h4 v-show="error !== null" class="text-light">{{ error }}</h4>
         <div class="w-100 col-lg-4 px-lg-2 px-0 py-2">
@@ -184,6 +190,16 @@
         data: {
           donation: [],
           error: null
+				},
+				methods: {
+					destroy() {
+						axios.delete(`http://localhost:3333/donations/${this.donation.id}`, {
+							headers: {
+								'authorization': localStorage.getItem("accessToken")
+							}
+						}).then(() => window.location.replace("minhas-doacoes.html"))
+							.catch()
+					}
 				},
         mounted() {
 					authValidation("donator")

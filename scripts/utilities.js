@@ -17,7 +17,6 @@ function getUrlParams() {
 
 function getUrlParam(name) {
 	const params = getUrlParams()
-	console.log(params)
 	return params.filter(param => param.key === name)[0].value
 }
 
