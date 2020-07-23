@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" type="image/svg" href="../assets/logo.svg">
+    <link 
+      rel="stylesheet" 
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+      crossorigin="anonymous">
+    <link 
+      rel="stylesheet" 
+      type="text/css" 
+      href="../styles/global.css">
+
+    <title>Konectando Conta</title>
+  </head>
+  <body>
+		<nav class="navbar navbar-expand-lg navbar-dark p-3">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="../assets/logo.svg" width="40" height="40" alt="Logo">
+        </a>
+        <button 
+          class="navbar-toggler text-light"
+          type="button" 
+          data-toggle="collapse" 
+          data-target="#navbar" 
+          aria-controls="navbar" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation">
+          <svg class="bi bi-list" width="2em" height="2em" viewBox="0 0 16 16" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link text-light" href="home.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="account.html">Minha conta</a>
+						</li>
+						<li class="nav-item">
+              <button class="btn btn-link nav-link text-light" onclick="logout()">Sair</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div 
+      id="app"
+      v-cloak
+      class="container d-flex flex-column justify-content-center align-items-center">
+      <div class="rounded-lg bg-transparent w-100 max-700">
+        <div class="card-body">
+          <div 
+            v-if="!defined" 
+            key="notDefined" 
+            class="p-3 radius d-flex flex-column align-items-center text-center">
+            <h2 class="text-green">Gerenciar conta</h2>
+            <h5 class="text-green font-weight-normal mb-3">Quais informações você deseja alterar?</h5>
+            <button
+              type="submit" 
+              class="btn btn-lg btn-block btn-purple mt-3 shadow"
+              @click.prevent="setInfo('institutional')">
+              Institucionais
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-lg btn-block btn-purple mt-3 shadow"
+              @click.prevent="setInfo('address')">
+              Endereço
+            </button>
+          </div>
+          <form v-else key="defined">
+						<div v-if="info === 'institutional'">
+							<div class="form-group">
+								<label for="name">Nome da Instituição</label>
+								<input 
+									type="text" 
+									class="form-control form-control-lg" 
+									id="name"
+									v-model="school.name"
+									placeholder="Nome da instituição" 
+									required>
+							</div>
+							<div class="form-group">
+								<label for="email">Email</label>
+								<input 
+									type="email" 
+									class="form-control form-control-lg" 
+									id="email"
+									v-model="school.email"
+									placeholder="Email" 
+									required>
+							</div>
+							<div class="form-group">
+								<label for="phone">Telefone</label>
+								<input 
+									type="text" 
+									class="form-control form-control-lg" 
+									id="phone"
+									v-model="school.phone"
+									placeholder="Telefone"
+									maxlength="15" 
+									required>
+							</div>
+							<div class="form-group">
+								<label for="hour">Horário de Funcionamento</label>
+								<input 
+									type="text" 
+									class="form-control form-control-lg" 
+									id="hour"
+									v-model="school.hour"
+									placeholder="Horário de funcionamento" 
+									required>
+							</div>
+						</div>
+						<div v-else-if="info === 'address'">
+							<div class="form-group">
+								<label for="city">Cidade</label>
+								<input 
+									type="text" 
+									class="form-control form-control-lg" 
+									id="city"
+									v-model="school.addresses[0].city"
+									placeholder="Cidade" 
+									required>
+							</div>
+							<div class="form-group">
+								<label for="district">Bairro</label>
+								<input 
+									type="text" 
+									class="form-control form-control-lg" 
+									id="district"
+									v-model="school.addresses[0].district"
+									placeholder="Bairro"
+									required>
+							</div>
+							<div class="form-group">
+								<label for="street">Rua e Número</label>
+								<input 
+									type="text" 
+									class="form-control form-control-lg" 
+									id="street"
+									v-model="school.addresses[0].street"
+									placeholder="Rua e número" 
+									required>
+							</div>
+						</div>
+						<div 
+							class="alert rounded-lg bg-danger text-light" 
+							role="alert"
+							v-show="error !== null">
+							{{ this.error }}
+						</div>
+						<div 
+							class="alert rounded-lg bg-success text-light" 
+							role="alert"
+							v-show="success !== null">
+							{{ this.success }}
+						</div>
+						<button 
+							type="submit" 
+							class="btn btn-lg btn-block btn-purple mt-4"
+							@click.prevent="save()">
+							Salvar alterações
+						</button>
+						<button 
+							type="submit" 
+							class="btn btn-lg btn-block btn-outline-danger mt-3"
+							@click.prevent="back()">
+							Voltar
+						</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script 
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" 
+      crossorigin="anonymous"></script>
+    <script 
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" 
+      crossorigin="anonymous"></script>
+    <script 
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" 
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+		<script src="../scripts/utilities.js"></script>
+    <script type="text/javascript">
+      let app = new Vue({
+        el: '#app',
+        data: {
+          school: {
+						name: null,
+          	email: null,
+						phone: null,
+						hour: null,
+						city: null,
+						district: null,
+						street: null
+					},
+          info: null,
+          defined: false,
+					error: null,
+					success: null
+				},
+        methods: {
+          save() {
+						let url = "http://localhost:3333/schools"
+						let data
+            if (this.info === 'address') {
+							url += "/addresses"
+							data = this.school.addresses[0]
+						}
+						else {
+							data = this.school
+						}
+						
+						axios.put(url, data, {
+							headers: {
+								'authorization': localStorage.getItem("accessToken")
+							}
+						})
+							.then(() => this.success = "Informações atualizadas com sucesso.")
+							.catch(() => this.error = "Erro ao atualizar suas informações, tente novamente.")
+					},
+					
+          setInfo(choice, defined = true) {
+						
+						if (choice === "institutional") {
+							
+						}
+            this.info = choice
+						this.defined = defined
+					},
+					
+					back() {
+						this.defined = false
+						this.success = null
+						this.error = null
+					}
+				},
+				created() {
+					authValidation("school")
+					const { id } = getTokenData()
+					axios.get(`http://localhost:3333/schools/${id}`, {
+						headers: {
+							'authorization': localStorage.getItem("accessToken")
+						}
+					}).then(response => this.school = response.data.school)
+						.catch()
+				}
+      })
+    </script>
+  </body>
+</html>
