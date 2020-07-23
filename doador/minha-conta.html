@@ -175,12 +175,7 @@
 					}
 				},
         mounted() {
-          if (!localStorage.getItem("accessToken") ||
-              !localStorage.getItem("accountType") ||
-              localStorage.getItem("accountType") != "donator") {
-            window.location.href = "../entrar.html"
-            return
-					}
+          authValidation("donator")
 					axios.get(`http://localhost:3333/donators/account`, {
             headers: {
               'authorization': localStorage.getItem("accessToken")

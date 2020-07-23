@@ -177,12 +177,7 @@
 					}
 				},
         mounted() {
-          if (!localStorage.getItem("accessToken") ||
-              !localStorage.getItem("accountType") ||
-              localStorage.getItem("accountType") != "donator") {
-            window.location.href = "../entrar.html"
-            return
-					}
+          authValidation("donator")
 					this.school.id = getUrlParam("school")
 					axios.get(`http://localhost:3333/schools/${this.school.id}`, {
             headers: {
