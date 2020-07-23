@@ -61,7 +61,7 @@
 			<div class="d-flex flex-wrap align-items-center justify-content-between mb-1">
 				<h3 class="text-green">Detalhes da doação</h3>
 				<div class="d-flex align-items-center">
-					<button class="btn btn-link p-0 my-1 mx-2 text-light text-600">Editar</button>
+					<a :href="'editar-doacao.html?donation=' + donation.id" class="btn btn-link p-0 my-1 mx-2 text-light text-600">Editar</a>
 					<button class="btn btn-link p-0 my-1 mx-2 text-danger text-600" @click="destroy()">Excluir</button>
 				</div>
 			</div>
