@@ -20,24 +20,23 @@
   <body>
     <div 
       class="modal fade" 
-      id="statusModal" 
+      id="errorModal" 
       tabindex="-1" 
       role="dialog" 
-      aria-labelledby="statusModalLabel" 
-      aria-hidden="true">
+      aria-labelledby="errorModalLabel" 
+			aria-hidden="true"
+			data-backdrop="false"
+			style="background-color: rgba(0, 0, 0, .4);">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Done</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <h5 class="modal-title" id="errorModalLabel">Ops!</h5>
           </div>
           <div class="modal-body">
-            Take your donation on the chosen date and time, there will be someone responsible to collect them.
+            Houve um problema ao carregar as informações do servidor, por favor volte e tente novamente.
           </div>
           <div class="modal-footer">
-            <a href="home.html" class="btn btn-blue">Cool!</a>
+            <button class="btn btn-purple" onclick="window.history.go(-1)">Ok, entendi</button>
           </div>
         </div>
       </div>
@@ -67,7 +66,7 @@
               <a class="nav-link text-light" href="home.html">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light" href="account.html">Minha conta</a>
+              <a class="nav-link text-light" href="minha-conta.html">Minha conta</a>
 						</li>
 						<li class="nav-item">
               <button class="btn btn-link nav-link text-light" onclick="logout()">Sair</button>
@@ -80,15 +79,16 @@
       id="app" 
       v-cloak
       class="container d-flex flex-column my-4">
-      <form class="w-100">
-        <h3 class="text-green mb-3">Doe para E.B.M Oscar Unbehaun</h3>
+      <form class="w-100" v-if="school.id !== null" key="school">
+        <h3 class="text-green mb-3">Doe para {{ school.name }}</h3>
         <div class="form-group">
-          <label for="count">Quantos aparelhos deseja doar?</label>
+          <label for="quantity">Quantos aparelhos deseja doar?</label>
           <input 
             type="number" 
             class="form-control form-control-lg" 
-            id="count"
-            placeholder="Quantidade">
+            id="quantity"
+						placeholder="Quantidade"
+						v-model="donation.quantity">
         </div>
         <div class="form-group">
           <label for="description">Descreva os aparelhos brevemente</label>
@@ -97,7 +97,8 @@
             class="form-control form-control-lg" 
             id="description"
             placeholder="Descrição" 
-            rows="3">
+						rows="3"
+						v-model="donation.description">
           </textarea>
         </div>
         <div 
@@ -118,18 +119,23 @@
             <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
             <circle cx="8" cy="4.5" r="1"/>
           </svg>
-          Horário de funcionamento da instituição: 8h às 11:30h - 13h às 18h 
+          Horário de funcionamento da instituição: {{ school.hour }}
         </div>
-        <a href="concluido.html" class="btn btn-lg btn-block btn-purple mt-4">
+        <button class="btn btn-lg btn-block btn-purple mt-4" @click.prevent="save()">
           Enviar
-        </a>
-        <a 
-          href="home.html"
+				</button>
+        <button
+          onclick="window.history.go(-1)"
           type="submit" 
           class="btn btn-lg btn-block btn-outline-danger mt-3">
           Voltar
-        </a>
-      </form>
+				</button>
+			</form>
+			<div v-else key="no-school">
+				<h3 class="text-green mb-3">Ops!</h3>
+        <p class="text-light mb-3">Parece que a instituição que você está buscando não está cadastrada na plataforma ainda.</p>
+				<button class="btn btn-lg btn-block btn-purple mt-4" onclick="window.history.go(-1)">Voltar</button>
+			</div>
     </div>
 
     <script 
@@ -151,15 +157,39 @@
       let app = new Vue({
         el: '#app',
         data: {
-          error: null
-        },
+					error: null,
+					school: {
+						id: null
+					},
+					donation: {
+						quantity: 1,
+						description: ""
+					}
+				},
+				methods: {
+					save() {
+						axios.post(`http://localhost:3333/schools/${this.school.id}/donate`, this.donation, {
+							headers: {
+								'authorization': localStorage.getItem("accessToken")
+							}
+						}).then(() => window.location.replace(`concluido.html?school=${this.school.id}`))
+							.catch(() => this.error = "Falha ao cadastrar sua doação, tente novamente.")
+					}
+				},
         mounted() {
           if (!localStorage.getItem("accessToken") ||
               !localStorage.getItem("accountType") ||
               localStorage.getItem("accountType") != "donator") {
             window.location.href = "../entrar.html"
             return
-          }
+					}
+					this.school.id = getUrlParam("school")
+					axios.get(`http://localhost:3333/schools/${this.school.id}`, {
+            headers: {
+              'authorization': localStorage.getItem("accessToken")
+            }
+          }).then(response => this.school = response.data.school)
+            .catch(() => $('#errorModal').modal('show'))
         }
       })
     </script>

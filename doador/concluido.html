@@ -67,7 +67,7 @@
               <a class="nav-link text-light" href="home.html">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light" href="account.html">Minha conta</a>
+              <a class="nav-link text-light" href="minha-conta.html">Minha conta</a>
 						</li>
 						<li class="nav-item">
               <button class="btn btn-link nav-link text-light" onclick="logout()">Sair</button>
@@ -97,7 +97,7 @@
             <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
             <circle cx="8" cy="4.5" r="1"/>
           </svg>
-          Horário de funcionamento da instituição: 8h às 11:30h - 13h às 18h 
+          Horário de funcionamento da instituição: {{ hour }}
         </div>
         <a href="home.html" class="btn btn-lg btn-block btn-purple mt-4">
           Voltar para o início
@@ -122,14 +122,18 @@
 		<script src="../scripts/utilities.js"></script>
     <script type="text/javascript">
       let app = new Vue({
-        el: '#app',
+				el: '#app',
+				data: {
+					hour: null
+				},
         mounted() {
-          if (!localStorage.getItem("accessToken") ||
-              !localStorage.getItem("accountType") ||
-              localStorage.getItem("accountType") != "donator") {
-            window.location.href = "../entrar.html"
-            return
-          }
+          authValidation("donator")
+					const school_id = getUrlParam("school")
+					axios.get(`http://localhost:3333/schools/${school_id}`, {
+            headers: {
+              'authorization': localStorage.getItem("accessToken")
+            }
+          }).then(response => this.hour = response.data.school.hour).catch()
         }
       })
     </script>
