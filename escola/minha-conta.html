@@ -219,6 +219,7 @@
 						let url = "http://localhost:3333/schools"
 						let data
             if (this.info === 'address') {
+							console.log("save")
 							url += "/addresses"
 							data = this.school.addresses[0]
 						}
@@ -230,16 +231,16 @@
 							headers: {
 								'authorization': localStorage.getItem("accessToken")
 							}
-						})
-							.then(() => this.success = "Informações atualizadas com sucesso.")
-							.catch(() => this.error = "Erro ao atualizar suas informações, tente novamente.")
+						}).then(() => {
+							this.error = null
+							this.success = "Informações atualizadas com sucesso."
+						}).catch(() => {
+								this.success = null
+								this.error = "Erro ao atualizar suas informações, tente novamente."
+							})
 					},
 					
           setInfo(choice, defined = true) {
-						
-						if (choice === "institutional") {
-							
-						}
             this.info = choice
 						this.defined = defined
 					},
